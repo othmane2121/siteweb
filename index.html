@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <script src="database.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Le Délice - Cuisine Authentique</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2c1810;
+            background-color: #f8f6f3;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header - Optimisé mobile */
+        header {
+            background: linear-gradient(135deg, #2c1810, #5d4037);
+            color: white;
+            padding: 0.8rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #d4af37;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+        }
+
+        .nav-links a:hover {
+            color: #d4af37;
+            background-color: rgba(212, 175, 55, 0.1);
+        }
+
+        /* Hero Section - Optimisé mobile */
+        .hero {
+            min-height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 2rem 1rem;
+            margin-top: 60px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            background: #d4af37;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            touch-action: manipulation;
+        }
+
+        .btn:hover, .btn:active {
+            background: #b8941f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Sections */
+        section {
+            padding: 2.5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #5b3323;
+        }
+
+        /* À propos - Mobile friendly */
+        .about {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            color: #5a2127;
+        }
+
+        .about h2 {
+            color: #2c1810;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .about-content {
+            display: block;
+        }
+
+        .about-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #8a3c1d;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+        }
+
+        .about-image {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin-top: 1rem;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        /* Menu - Optimisé mobile */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .menu-item-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(45deg, #ff6b35, #d4af37);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .menu-item-image.has-real-image {
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            color: transparent;
+        }
+
+        .menu-item-image.has-real-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-item:hover .menu-item-image.has-real-image::before,
+        .menu-item:active .menu-item-image.has-real-image::before {
+            opacity: 1;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .menu-item:hover,
+        .menu-item:active {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .menu-item-content {
+            padding: 1.2rem;
+        }
+
+        .menu-item h3 {
+            color: #2c1810;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .menu-item p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .menu-item-price {
+            color: #d4af37;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Formulaire de réservation - Mobile */
+        .reservation-form {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c1810;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            -webkit-appearance: none;
+            appearance: none;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .success-message, .error-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Section localisation - Mobile */
+        .map {
+            width: 100%;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .map iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 8px;
+            filter: grayscale(10%);
+        }
+
+        .map-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .map-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 2px;
+        }
+
+        /* Contact - Mobile */
+        .contact-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .contact-info p {
+            margin: 0.8rem 0;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .contact-info strong {
+            color: #2c1810;
+        }
+
+        .footer {
+            background: #2c1810;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .image-badge {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            font-weight: normal;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Media Queries pour très petits écrans */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .logo {
+                font-size: 1.3rem;
+            }
+            
+            .nav-links {
+                gap: 0.5rem;
+            }
+            
+            .nav-links a {
+                font-size: 0.8rem;
+                padding: 0.2rem 0.4rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .about {
+                padding: 1.5rem 1rem;
+            }
+            
+            .about h2 {
+                font-size: 1.5rem;
+            }
+            
+            .menu-item-image {
+                height: 160px;
+            }
+            
+            .reservation-form {
+                padding: 1rem;
+            }
+            
+            .map iframe {
+                height: 250px;
+            }
+        }
+
+        /* Media Queries pour tablettes */
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                gap: 2rem;
+            }
+            
+            .nav-links a {
+                font-size: 1rem;
+            }
+            
+            .hero {
+                min-height: 90vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.3rem;
+            }
+            
+            .about-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+                align-items: center;
+            }
+            
+            .about-image img {
+                height: 300px;
+            }
+            
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .menu-item-image {
+                height: 200px;
+            }
+            
+            .reservation-form {
+                max-width: 600px;
+                padding: 2rem;
+            }
+            
+            .map iframe {
+                height: 400px;
+            }
+        }
+
+        /* Media Queries pour écrans larges */
+        @media (min-width: 1024px) {
+            .hero {
+                min-height: 100vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.5rem;
+            }
+            
+            .menu-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .about {
+                padding: 3rem;
+            }
+        }
+
+        /* Amélioration touch pour mobile */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                padding: 1.2rem 1.8rem;
+                font-size: 1rem;
+            }
+            
+            .nav-links a {
+                padding: 0.5rem 0.8rem;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            
+            .menu-item {
+                margin-bottom: 0.5rem;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 15px;
+                font-size: 16px; /* Empêche le zoom automatique sur iOS */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">Le Délice</div>
+            <ul class="nav-links">
+                <li><a href="#accueil" onclick="scrollToSection('hero')">Accueil</a></li>
+                <li><a href="#menu" onclick="scrollToSection('menu')">Menu</a></li>
+                <li><a href="#reservation" onclick="scrollToSection('reservation')">Réservation</a></li>
+                <li><a href="#contact" onclick="scrollToSection('contact')">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="accueil">
+        <div class="hero-content">
+            <h1>Restaurant Le Délice</h1>
+            <p>Une expérience culinaire authentique au cœur de la ville</p>
+            <a href="#menu" class="btn">Découvrir notre menu</a>
+        </div>
+    </section>
+
+    <section class="section" id="about">
+        <div class="container">
+            <div class="about">
+                <h2>Notre Histoire</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Bienvenue chez <strong>Le Délice</strong>, où les traditions culinaires françaises prennent vie dans chaque plat. Depuis des générations, notre famille perpétue l'art de la cuisine française authentique, en utilisant des recettes transmises de mère en fille.</p>
+                        
+                        <p>Nos chefs expérimentés préparent chaque mets avec amour et passion, en sélectionnant uniquement les meilleurs produits du terroir et les ingrédients les plus frais. De nos plats mijotés aux saveurs réconfortantes à nos pâtisseries raffinées, chaque bouchée vous fera redécouvrir le goût de la France.</p>
+                        
+                        <p>Le Délice, ce n'est pas qu'un simple restaurant : c'est une immersion dans l'élégance de la culture française, où l'art de la table et l'hospitalité se rencontrent autour d'une gastronomie d'exception.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Intérieur du restaurant">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="container">
+        <h2 class="section-title">Notre Menu</h2>
+        <div class="menu-grid" id="menu-grid">
+            <!-- Menu items will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Reservation Section -->
+    <section id="reservation" class="container">
+        <h2 class="section-title">Réservation</h2>
+        <div class="reservation-form">
+            <div class="success-message" id="success-message">
+                Votre réservation a été enregistrée avec succès! Nous vous confirmerons par email sous peu.
+            </div>
+            <div class="error-message" id="error-message">
+                Une erreur s'est produite. Veuillez réessayer.
+            </div>
+            <form onsubmit="makeReservation(event)">
+                <div class="form-group">
+                    <label for="name">Nom complet *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Téléphone *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date *</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Heure *</label>
+                    <select id="time" name="time" required>
+                        <option value="">Choisir une heure</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">13:00</option>
+                        <option value="13:30">13:30</option>
+                        <option value="19:00">19:00</option>
+                        <option value="19:30">19:30</option>
+                        <option value="20:00">20:00</option>
+                        <option value="20:30">20:30</option>
+                        <option value="21:00">21:00</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="guests">Nombre de personnes *</label>
+                    <select id="guests" name="guests" required>
+                        <option value="">Choisir</option>
+                        <option value="1">1 personne</option>
+                        <option value="2">2 personnes</option>
+                        <option value="3">3 personnes</option>
+                        <option value="4">4 personnes</option>
+                        <option value="5">5 personnes</option>
+                        <option value="6">6 personnes</option>
+                        <option value="7">7 personnes</option>
+                        <option value="8">8 personnes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message (optionnel)</label>
+                    <textarea id="message" name="message" rows="3" placeholder="Demandes spéciales, allergies..."></textarea>
+                </div>
+                <button type="submit" class="btn">Réserver une table</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="container">
+        <div class="map-title">📍 Notre Localisation</div>
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.6673809892527!2d2.3428560755597383!3d48.86455277133296!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e1876f3051d%3A0x97f722c0141587e3!2sComptoir%20de%20la%20Gastronomie!5e0!3m2!1sen!2sma!4v1756833309316!5m2!1sen!2sma" width="640" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container">
+        <h2 class="section-title">Contact & Informations</h2>
+        <div class="contact-info">
+            <p><strong>📞 Téléphone:</strong> 01 23 45 67 89</p>
+            <p><strong>✉️ Email:</strong> contact@ledelice.fr</p>
+            <p><strong>🕒 Horaires:</strong></p>
+            <p>Mardi - Dimanche: 12h-14h30 et 19h-22h30</p>
+            <p>Fermé le lundi</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Restaurant Le Délice. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu Data - TOUTES les images réelles
+        const menuItems = [
+            {
+                id: 1,
+                name: "Coq au Vin",
+                description: "Coq fermier mijoté au vin rouge avec champignons de Paris et lardons fumés, accompagné de pommes de terre fondantes",
+                price: "28€",
+                image: "https://img.freepik.com/fotos-premium/coq-au-vin-plato-tradicional-frances-pollo-estofado-hongos-hierbas-vino-tinto_917664-89547.jpg"
+            },
+            {
+                id: 2,
+                name: "Bouillabaisse Marseillaise",
+                description: "Soupe de poissons traditionnelle de Méditerranée avec rouille maison et croûtons dorés",
+                price: "32€",
+                image: "https://epiceriedusud.fr/wp-content/uploads/2024/12/bouillabaisse.jpg"
+            },
+            {
+                id: 3,
+                name: "Bœuf bourguignon",
+                description: "Préparé avec des morceaux de bœuf mijotés lentement dans du vin rouge, souvent accompagné de carottes, d'oignons, de lardons et de champignons.",
+                price: "36€",
+                image: "https://th.bing.com/th/id/OSK.HEROoim1ydKV5-9KpQfHCT1azs5OKoBRtGHYSfDI84cH-zk?w=296&h=176&c=1&rs=2&o=6&dpr=1.5&pid=SANGAM"
+            },
+            {
+                id: 4,
+                name: "Entrecôte aux Échalotes",
+                description: "Entrecôte grillée à la perfection, sauce aux échalotes confites, pommes sarladaises croustillantes",
+                price: "26€",
+                image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                name: "Risotto aux Cèpes",
+                description: "Risotto crémeux aux cèpes frais et parmesan vieilli 24 mois, huile de truffe",
+                price: "22€",
+                image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                name: "Magret de Canard",
+                description: "Magret de canard rôti, sauce aux cerises, gratin dauphinois et légumes de saison",
+                price: "30€",
+                image: "https://images.unsplash.com/photo-1432139555190-58524dae6a55?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 7,
+                name: "Sole Meunière",
+                description: "Sole fraîche meunière, beurre noisette, citron confit et pommes vapeur persillées",
+                price: "35€",
+                image: "https://images.unsplash.com/photo-1485704686097-ed47f7263ca4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 8,
+                name: "Tarte Tatin Maison",
+                description: "Tarte aux pommes caramélisées, pâte sablée maison, glace vanille de Madagascar",
+                price: "12€",
+                image: "https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 9,
+                name: "Soufflé au Grand Marnier",
+                description: "Soufflé chaud parfumé au Grand Marnier, crème anglaise à la vanille",
+                price: "14€",
+                image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 10,
+                name: "Salade russe",
+                description: "La salade russe est une macédoine de légumes, généralement composée de pommes de terre, carottes et mayonnaise.",
+                price: "17€",
+                image: "https://th.bing.com/th/id/OIP.zpaCwzCCjQcnoTGRyCXFCgHaE6?w=312&h=200&c=10&o=6&dpr=1.5&pid=genserp&rm=2"
+            },
+            {
+                id: 11,
+                name: "Salade niçoise",
+                description: "La salade niçoise est un plat typique de Nice, alliant fraîcheur, simplicité et saveurs méditerranéennes, avec des ingrédients clés comme tomates, anchois, olives noires, œufs durs et huile d'olive.",
+                price: "18€",
+                image: "https://th.bing.com/th/id/R.6bbbdfc0c60fb29fc801aeb1d6173955?rik=K%2f3nEFOA2%2b%2byUw&riu=http%3a%2f%2fweekendatthecottage.com%2fwp-content%2fuploads%2f2017%2f01%2fDSC_2066-min.jpg&ehk=bYVj4PWe57cY05iWId0KV7QbNq1k6VaESg18acfffUY%3d&risl=&pid=ImgRaw&r=0"
+            },
+            {
+                id: 12,
+                name: "Pizza",
+                description: "Ni américaine ni italienne mais marocaine",
+                price: "14€",
+                image: "https://images7.alphacoders.com/596/596343.jpg"
+            }
+        ];
+
+        // Shared Data (accessible by admin page)
+        let restaurantData = {
+            reservations: [],
+            nextReservationId: 1
+        };
+
+        // Store data globally for admin access
+        window.restaurantData = restaurantData;
+
+        // Initialize the website
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMenu();
+            setMinDate();
+        });
+
+        // Menu Functions - MODIFIÉ pour gérer les vraies images
+        function loadMenu() {
+            const menuGrid = document.getElementById('menu-grid');
+            menuGrid.innerHTML = '';
+            
+            menuItems.forEach(item => {
+                const menuItemEl = document.createElement('div');
+                menuItemEl.className = 'menu-item';
+                
+                // Vérifier si c'est une URL d'image ou un texte
+                const isRealImage = item.image.startsWith('http') || item.image.startsWith('./') || item.image.startsWith('/');
+                
+                let imageContent;
+                if (isRealImage) {
+                    imageContent = `
+                        <div class="menu-item-image has-real-image" style="--bg-image: url('${item.image}')">
+                            <div class="image-badge">Photo réelle</div>
+                        </div>
+                    `;
+                } else {
+                    imageContent = `<div class="menu-item-image">${item.image}</div>`;
+                }
+                
+                menuItemEl.innerHTML = `
+                    ${imageContent}
+                    <div class="menu-item-content">
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <div class="menu-item-price">${item.price}</div>
+                    </div>
+                `;
+                menuGrid.appendChild(menuItemEl);
+            });
+        }
+
+        // Fonction pour changer l'image d'un plat spécifique
+        function updateMenuItem(id, newImageUrl) {
+            const itemIndex = menuItems.findIndex(item => item.id === id);
+            if (itemIndex !== -1) {
+                menuItems[itemIndex].image = newImageUrl;
+                loadMenu(); // Recharger le menu
+            }
+        }
+
+        // Reservation Functions
+        function setMinDate() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const dateInput = document.getElementById('date');
+            dateInput.min = tomorrow.toISOString().split('T')[0];
+        }
+
+        async function makeReservation(event) {
+            event.preventDefault();
+            
+            try {
+                if (typeof window.restaurantDB !== 'undefined' && window.restaurantDB.db) {
+                    await window.restaurantDB.init();
+                }
+                
+                const formData = new FormData(event.target);
+                const reservation = {
+                    id: restaurantData.nextReservationId++,
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    date: formData.get('date'),
+                    time: formData.get('time'),
+                    guests: formData.get('guests'),
+                    message: formData.get('message') || '',
+                    status: 'En attente',
+                    createdAt: new Date().toLocaleString('fr-FR')
+                };
+                
+                if (typeof window.restaurantDB !== 'undefined') {
+                    await window.restaurantDB.saveReservation(reservation);
+                }
+                
+                restaurantData.reservations.push(reservation);
+                
+                showMessage('success', 'Votre réservation a été enregistrée avec succès! Nous vous confirmerons par email sous peu.');
+                event.target.reset();
+                setMinDate();
+                
+            } catch (error) {
+                showMessage('error', 'Erreur: ' + error.message);
+            }
+        }
+
+        function showMessage(type, text) {
+            const successMsg = document.getElementById('success-message');
+            const errorMsg = document.getElementById('error-message');
+            
+            // Hide both messages first
+            successMsg.style.display = 'none';
+            errorMsg.style.display = 'none';
+            
+            if (type === 'success') {
+                successMsg.textContent = text;
+                successMsg.style.display = 'block';
+            } else {
+                errorMsg.textContent = text;
+                errorMsg.style.display = 'block';
+            }
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+                errorMsg.style.display = 'none';
+            }, 5000);
+        }
+
+        // Navigation Functions
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            const headerHeight = 80;
+            const elementPosition = element.offsetTop - headerHeight;
+            
+            window.scrollTo({
+                top: elementPosition,
+                behavior: 'smooth'
+            });
+        }
+
+        // Add some sample reservations for demo
+        restaurantData.reservations = [
+            {
+                id: 1,
+                name: "Marie Dubois",
+                email: "marie.dubois@email.fr",
+                phone: "06 12 34 56 78",
+                date: "2025-09-01",
+                time: "19:30",
+                guests: "4",
+                message: "Table près de la fenêtre si possible",
+                status: "Confirmée",
+                createdAt: "30/08/2025 14:30:00"
+            },
+            {
+                id: 2,
+                name: "Pierre Martin",
+                email: "p.martin@email.fr",
+                phone: "06 98 76 54 32",
+                date: "2025-09-02",
+                time: "20:00",
+                guests: "2",
+                message: "Anniversaire de mariage",
+                status: "En attente",
+                createdAt: "30/08/2025 16:15:00"
+            }
+        ];
+        restaurantData.nextReservationId = 3;
+
+        // Fonction pour tester différentes images pour la Tarte Tatin
+        function testTarteImages() {
+            console.log('Test des images pour Tarte Tatin:');
+            
+            // Option 1
+            setTimeout(() => {
+                updateMenuItem(7, 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+                console.log('Image 1 chargée');
+            }, 2000);
+            
+            // Option 2
+            setTimeout(() => {
+                updateMenuItem(7, 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+                console.log('Image 2 chargée');
+            }, 4000);
+            
+            // Retour à l'image par défaut
+            setTimeout(() => {
+                updateMenuItem(7, 'https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+                console.log('Image par défaut restaurée');
+            }, 6000);
+        }
+
+        // Démarrer le test automatiquement (optionnel)
+        // setTimeout(testTarteImages, 3000);
+    </script>
+</body>
+</html>
