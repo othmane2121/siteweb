@@ -13,11 +13,29 @@
         }
 
         body {
-            font-family: 'Georgia', serif;
-            line-height: 1.6;
-            color: #2c1810;
-            background-color: #f8f6f3;
-        }
+  animation: rotate-bg-color 10s infinite;
+}
+
+@keyframes rotate-bg-color {
+
+  
+  50% {
+    background-color: rgb(41, 41, 42);
+  }
+ 
+  70% {
+    background-color: rgb(6, 1, 6);
+  }
+  80% {
+    background-color: rgb(21, 20, 20);
+  }
+  90% {
+    background-color: brown;
+  }
+  100% {
+    background-color: rgba(126, 123, 123, 0);
+  }
+}
 
         .container {
             max-width: 1200px;
@@ -127,10 +145,10 @@
         }
 
         .section-title {
-            text-align: center;
+           text-align: center;
             font-size: 2rem;
             margin-bottom: 2rem;
-            color: #5b3323;
+            color: #8e8d8d;
         }
 
         /* À propos - Mobile friendly */
@@ -1014,4 +1032,5 @@
         // setTimeout(testTarteImages, 3000);
     </script>
 </body>
+
 </html>
